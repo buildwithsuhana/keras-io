@@ -95,7 +95,7 @@ class KerasDocumentationGenerator:
         if docstring:
             docstring = self.process_docstring(docstring)
             subblocks.append(docstring)
-        # Render preset table for KerasCV and KerasHub
+        # Render preset table for KerasHub
         if element.endswith("from_preset"):
             table = render_presets.render_table(import_object(element.rsplit(".", 1)[0]))
             if table is not None:

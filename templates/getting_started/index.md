@@ -40,12 +40,11 @@ To use Keras 3, you will also need to install a backend framework -- either JAX,
 If you install TensorFlow 2.15, you should reinstall Keras 3 afterwards. The cause is that `tensorflow==2.15` will overwrite your Keras installation with `keras==2.15`.
 This step is not necessary for TensorFlow versions 2.16 onwards as starting in TensorFlow 2.16, it will install Keras 3 by default.
 
-### Installing KerasCV and KerasHub
+### Installing KerasHub and KerasHub
 
-KerasCV and KerasHub can be installed via pip:
+KerasHub can be installed via pip:
 
 ```
-pip install --upgrade keras-cv
 pip install --upgrade keras-hub
 pip install --upgrade keras
 ```
