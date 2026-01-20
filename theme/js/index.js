@@ -23,13 +23,20 @@ const copyButtons = document.querySelectorAll('.code__copy--button');
 copyButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const parent = button.parentNode;
-    const text = parent.querySelector('code').innerText;
+    let text = parent.querySelector('code').innerText;
+
+    // Check if this is a Python Shell style block
+    if (text.includes('>>>')) {
+      text = text.split('\n')
+        .filter(line => /^(>>>|\.\.\.)/.test(line.trim()))
+        .map(line => line.replace(/^(>>>|\.\.\.) ?/, ""))
+        .join('\n');
+    }
+
     const inputElement = document.createElement('textarea');
-    console.log('text', text);
     inputElement.value = text;
     inputElement.setAttribute('class', 'visually-hidden');
-    const body = document.body;
-    body.appendChild(inputElement);
+    document.body.appendChild(inputElement);
     inputElement.select();
     document.execCommand('copy');
     inputElement.remove();
