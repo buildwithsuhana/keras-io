@@ -112,6 +112,7 @@ def render_markdown_to_html(md_content):
             "codehilite",
             "mdx_truly_sane_lists",
             "smarty",
+            "pymdownx.arithmatex",
         ],
         extension_configs={
             "codehilite": {
@@ -122,6 +123,9 @@ def render_markdown_to_html(md_content):
                 "smart_quotes": False,
                 "smart_angled_quotes": False,
                 "smart_ellipses": False,
+            },
+            "pymdownx.arithmatex": {
+                "generic": True,
             },
         },
     )
