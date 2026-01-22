@@ -43,8 +43,9 @@ from tqdm.auto import tqdm
 import xml.etree.ElementTree as ET
 
 import tensorflow as tf
-from tensorflow import keras
+import keras
 
+# Note: keras_cv is no longer maintained.
 import keras_cv
 from keras_cv import bounding_box
 from keras_cv import visualization
@@ -99,12 +100,6 @@ BATCH_SIZE = 4
 LEARNING_RATE = 0.001
 EPOCH = 5
 GLOBAL_CLIPNORM = 10.0
-
-"""
-A dictionary is created to map each class name to a unique numerical identifier. This
-mapping is used to encode and decode the class labels during training and inference in
-object detection tasks.
-"""
 
 class_ids = [
     "car",
@@ -343,10 +338,8 @@ efficient, enabling better training and more accurate object detection results.
 
 augmenter = keras.Sequential(
     layers=[
-        keras_cv.layers.RandomFlip(mode="horizontal", bounding_box_format="xyxy"),
-        keras_cv.layers.RandomShear(
-            x_factor=0.2, y_factor=0.2, bounding_box_format="xyxy"
-        ),
+        keras.layers.RandomFlip(mode="horizontal"),
+        keras.layers.RandomShear(x_factor=0.2, y_factor=0.2),
         keras_cv.layers.JitteredResize(
             target_size=(640, 640), scale_factor=(0.75, 1.3), bounding_box_format="xyxy"
         ),
@@ -545,7 +538,7 @@ bounding boxes.
 
 """
 
-optimizer = tf.keras.optimizers.Adam(
+optimizer = keras.optimizers.Adam(
     learning_rate=LEARNING_RATE,
     global_clipnorm=GLOBAL_CLIPNORM,
 )

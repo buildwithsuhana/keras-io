@@ -51,6 +51,7 @@ import os
 
 os.environ["KERAS_BACKEND"] = "tensorflow"
 import keras
+# NOTE: Keras_cv is no longer maintained.
 import keras_cv
 from keras import ops
 from keras import layers
@@ -101,10 +102,10 @@ random_flip = layers.RandomFlip(mode="horizontal_and_vertical")
 random_crop = layers.RandomCrop(CROP_TO, CROP_TO)
 random_brightness = layers.RandomBrightness(0.8 * strength[0])
 random_contrast = layers.RandomContrast((1 - 0.8 * strength[1], 1 + 0.8 * strength[1]))
-random_saturation = keras_cv.layers.RandomSaturation(
+random_saturation = layers.RandomSaturation(
     (0.5 - 0.8 * strength[2], 0.5 + 0.8 * strength[2])
 )
-random_hue = keras_cv.layers.RandomHue(0.2 * strength[3], [0, 255])
+random_hue = layers.RandomHue(0.2 * strength[3], [0, 255])
 grayscale = keras_cv.layers.Grayscale()
 
 

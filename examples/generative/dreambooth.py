@@ -28,6 +28,7 @@ help you to get familiarized quickly:
 
 First, let's install the latest versions of KerasCV and TensorFlow.
 
+Note: `keras_cv` is no longer maintained.
 """
 
 """shell
@@ -46,12 +47,12 @@ VRAM.
 
 import math
 
+import keras
 import keras_cv
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from imutils import paths
-from tensorflow import keras
 
 """
 ## Usage of DreamBooth
@@ -111,6 +112,7 @@ import os
 class_images_dir = "class-images"
 os.makedirs(class_images_dir, exist_ok=True)
 
+# Note: StableDiffusion v1/v2 support in keras_cv is legacy.
 model = keras_cv.models.StableDiffusion(img_width=512, img_height=512, jit_compile=True)
 
 class_prompt = "a photo of dog"
@@ -135,11 +137,11 @@ and generated some class images using
 almost always helps in improving the quality of the generated images.
 """
 
-instance_images_root = tf.keras.utils.get_file(
+instance_images_root = keras.utils.get_file(
     origin="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/instance-images.tar.gz",
     untar=True,
 )
-class_images_root = tf.keras.utils.get_file(
+class_images_root = keras.utils.get_file(
     origin="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/class-images.tar.gz",
     untar=True,
 )
@@ -230,6 +232,7 @@ padding_token = 49407
 max_prompt_length = 77
 
 # Load the tokenizer.
+# Note: SimpleTokenizer is part of the legacy keras_cv.models.stable_diffusion
 tokenizer = keras_cv.models.stable_diffusion.SimpleTokenizer()
 
 
@@ -251,6 +254,7 @@ for i, caption in enumerate(itertools.chain(instance_prompts, class_prompts)):
 
 # We also pre-compute the text embeddings to save some memory during training.
 POS_IDS = tf.convert_to_tensor([list(range(max_prompt_length))], dtype=tf.int32)
+# Note: TextEncoder is part of the legacy keras_cv.models.stable_diffusion
 text_encoder = keras_cv.models.stable_diffusion.TextEncoder(max_prompt_length)
 
 gpus = tf.config.list_logical_devices("GPU")
@@ -276,8 +280,8 @@ auto = tf.data.AUTOTUNE
 
 augmenter = keras.Sequential(
     layers=[
-        keras_cv.layers.CenterCrop(resolution, resolution),
-        keras_cv.layers.RandomFlip(),
+        keras.layers.CenterCrop(resolution, resolution),
+        keras.layers.RandomFlip(),
         keras.layers.Rescaling(scale=1.0 / 127.5, offset=-1),
     ]
 )
@@ -372,7 +376,7 @@ to [this repository](https://github.com/sayakpaul/dreambooth-keras/).
 import tensorflow.experimental.numpy as tnp
 
 
-class DreamBoothTrainer(tf.keras.Model):
+class DreamBoothTrainer(keras.Model):
     # Reference:
     # https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/train_dreambooth.py
 
@@ -521,10 +525,11 @@ class DreamBoothTrainer(tf.keras.Model):
 """
 
 # Comment it if you are not using a GPU having tensor cores.
-tf.keras.mixed_precision.set_global_policy("mixed_float16")
+keras.mixed_precision.set_global_policy("mixed_float16")
 
 use_mp = True  # Set it to False if you're not using a GPU with tensor cores.
 
+# Note: ImageEncoder, DiffusionModel, and NoiseScheduler are part of legacy keras_cv
 image_encoder = keras_cv.models.stable_diffusion.ImageEncoder()
 dreambooth_trainer = DreamBoothTrainer(
     diffusion_model=keras_cv.models.stable_diffusion.DiffusionModel(
@@ -532,7 +537,7 @@ dreambooth_trainer = DreamBoothTrainer(
     ),
     # Remove the top layer from the encoder, which cuts off the variance and only
     # returns the mean.
-    vae=tf.keras.Model(
+    vae=keras.Model(
         image_encoder.input,
         image_encoder.layers[-2].output,
     ),
@@ -547,7 +552,7 @@ beta_1, beta_2 = 0.9, 0.999
 weight_decay = (1e-2,)
 epsilon = 1e-08
 
-optimizer = tf.keras.optimizers.experimental.AdamW(
+optimizer = keras.optimizers.AdamW(
     learning_rate=learning_rate,
     weight_decay=weight_decay,
     beta_1=beta_1,
@@ -571,8 +576,8 @@ print(f"Training for {epochs} epochs.")
 And then we start training!
 """
 
-ckpt_path = "dreambooth-unet.h5"
-ckpt_callback = tf.keras.callbacks.ModelCheckpoint(
+ckpt_path = "dreambooth-unet.weights.h5"
+ckpt_callback = keras.callbacks.ModelCheckpoint(
     ckpt_path,
     save_weights_only=True,
     monitor="loss",
@@ -592,6 +597,7 @@ First, let's see how we can use the fine-tuned checkpoint for running inference.
 """
 
 # Initialize a new Stable Diffusion model.
+# Note: keras_cv.models.StableDiffusion is legacy.
 dreambooth_model = keras_cv.models.StableDiffusion(
     img_width=resolution, img_height=resolution, jit_compile=True
 )
@@ -609,10 +615,10 @@ Now, let's load checkpoints from a different experiment we conducted where we al
 fine-tuned the text encoder along with the UNet:
 """
 
-unet_weights = tf.keras.utils.get_file(
+unet_weights = keras.utils.get_file(
     origin="https://huggingface.co/chansung/dreambooth-dog/resolve/main/lr%409e-06-max_train_steps%40200-train_text_encoder%40True-unet.h5"
 )
-text_encoder_weights = tf.keras.utils.get_file(
+text_encoder_weights = keras.utils.get_file(
     origin="https://huggingface.co/chansung/dreambooth-dog/resolve/main/lr%409e-06-max_train_steps%40200-train_text_encoder%40True-text_encoder.h5"
 )
 

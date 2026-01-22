@@ -51,7 +51,6 @@ import os
 import random
 import time
 import tensorflow_addons as tfa
-import keras_cv
 from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
@@ -60,7 +59,8 @@ from tensorflow.keras import layers
 from tabulate import tabulate
 import tensorflow_similarity as tfsim  # main package
 import tensorflow as tf
-from keras_cv import layers as cv_layers
+# NOTE: KerasCV is no longer maintained.
+import keras_cv
 
 import tensorflow_datasets as tfds
 
@@ -203,17 +203,17 @@ hue_factor = 0.2
 
 augmenter = keras.Sequential(
     [
-        cv_layers.RandomFlip("horizontal"),
-        cv_layers.RandomCropAndResize(
+        layers.RandomFlip("horizontal"),
+        keras_cv.layers.RandomCropAndResize(
             target_size,
             crop_area_factor=crop_area_factor,
             aspect_ratio_factor=aspect_ratio_factor,
         ),
-        cv_layers.RandomApply(
-            cv_layers.Grayscale(output_channels=3), rate=grayscale_rate
+        keras_cv.layers.RandomApply(
+            keras_cv.layers.Grayscale(output_channels=3), rate=grayscale_rate
         ),
-        cv_layers.RandomApply(
-            cv_layers.RandomColorJitter(
+        keras_cv.layers.RandomApply(
+            layers.RandomColorJitter(
                 value_range=(0, 255),
                 brightness_factor=brightness_factor,
                 contrast_factor=contrast_factor,
@@ -278,15 +278,23 @@ For this task, we will use a KerasCV ResNet18 model as the backbone.
 """
 
 
+import keras_hub
+
 def get_backbone(input_shape):
+
+    backbone = keras_hub.models.ResNetBackbone.from_preset(
+        "resnet_18_imagenet",
+        load_weights=True
+    )
+    
     inputs = layers.Input(shape=input_shape)
-    x = inputs
-    x = keras_cv.models.ResNet18(
-        input_shape=input_shape,
-        include_rescaling=True,
-        include_top=False,
-        pooling="avg",
-    )(x)
+    x = backbone(inputs)
+
+    if isinstance(x, dict):
+        x = list(x.values())[-1]
+    if len(x.shape) == 4:
+        x = layers.GlobalAveragePooling2D()(x)
+        
     return tfsim.models.SimilarityModel(inputs, x)
 
 
@@ -525,7 +533,7 @@ eval_augmenter = keras.Sequential(
         keras_cv.layers.RandomCropAndResize(
             (96, 96), crop_area_factor=(0.8, 1.0), aspect_ratio_factor=(1.0, 1.0)
         ),
-        keras_cv.layers.RandomFlip(mode="horizontal"),
+        layers.RandomFlip(mode="horizontal"),
     ]
 )
 

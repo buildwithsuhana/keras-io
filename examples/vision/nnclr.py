@@ -78,7 +78,6 @@ import os
 
 os.environ["KERAS_BACKEND"] = "tensorflow"
 import keras
-import keras_cv
 from keras import ops
 from keras import layers
 
@@ -187,12 +186,18 @@ def augmenter(brightness, name, scale):
             layers.Input(shape=input_shape),
             layers.Rescaling(1 / 255),
             layers.RandomFlip("horizontal"),
-            keras_cv.layers.RandomCropAndResize(
-                target_size=(input_shape[0], input_shape[1]),
-                crop_area_factor=scale,
-                aspect_ratio_factor=(3 / 4, 4 / 3),
+            layers.RandomCrop(
+                height=input_shape[0], 
+                width=input_shape[1]
             ),
-            keras_cv.layers.RandomBrightness(factor=brightness, value_range=(0.0, 1.0)),
+            layers.Resizing(
+                height=input_shape[0], 
+                width=input_shape[1]
+            ),
+            layers.RandomBrightness(
+                factor=brightness, 
+                value_range=(0.0, 1.0)
+            ),
         ],
         name=name,
     )

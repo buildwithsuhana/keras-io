@@ -64,6 +64,7 @@ Note that if you are running with a M1 Mac GPU you should not enable mixed preci
 pip install keras-cv --upgrade --quiet
 """
 
+# NOTE: KerasCV is no longer maintained.
 import keras_cv
 import keras
 import matplotlib.pyplot as plt

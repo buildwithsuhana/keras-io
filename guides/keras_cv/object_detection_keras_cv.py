@@ -31,6 +31,8 @@ os.environ["KERAS_BACKEND"] = "jax"  # @param ["tensorflow", "jax", "torch"]
 from tensorflow import data as tf_data
 import tensorflow_datasets as tfds
 import keras
+from keras import layers
+# NOTE: KerasCV is no longer maintained.
 import keras_cv
 import numpy as np
 from keras_cv import bounding_box
@@ -186,7 +188,7 @@ a `keras_cv.layers.Resizing` layer.
 This can be implemented in one line of code:
 """
 
-inference_resizing = keras_cv.layers.Resizing(
+inference_resizing = layers.Resizing(
     640, 640, pad_to_aspect_ratio=True, bounding_box_format="xywh"
 )
 
@@ -512,7 +514,7 @@ bounding-box-friendly data augmentation inside a `tf.data` pipeline.
 """
 
 augmenters = [
-    keras_cv.layers.RandomFlip(mode="horizontal", bounding_box_format="xywh"),
+    layers.RandomFlip(mode="horizontal", bounding_box_format="xywh"),
     keras_cv.layers.JitteredResize(
         target_size=(640, 640), scale_factor=(0.75, 1.3), bounding_box_format="xywh"
     ),
@@ -542,7 +544,7 @@ Let's format our evaluation dataset to match.  Instead of using
 layer.
 """
 
-inference_resizing = keras_cv.layers.Resizing(
+inference_resizing = layers.Resizing(
     640, 640, bounding_box_format="xywh", pad_to_aspect_ratio=True
 )
 eval_ds = eval_ds.map(inference_resizing, num_parallel_calls=tf_data.AUTOTUNE)

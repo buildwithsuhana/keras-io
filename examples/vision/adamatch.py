@@ -67,12 +67,9 @@ import tensorflow as tf
 tf.random.set_seed(42)
 
 import numpy as np
-
-from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras import regularizers
-from keras_cv.layers import RandAugment
-
+import keras
+from keras import layers
+from keras import regularizers
 import tensorflow_datasets as tfds
 
 tfds.disable_progress_bar()
@@ -130,7 +127,7 @@ weak augmentation, we will use horizontal flipping and random cropping.
 
 # Initialize `RandAugment` object with 2 layers of
 # augmentation transforms and strength of 5.
-augmenter = RandAugment(value_range=(0, 255), augmentations_per_image=2, magnitude=0.5)
+augmenter = layers.RandAugment(value_range=(0, 255), augmentations_per_image=2, magnitude=0.5)
 
 
 def weak_augment(image, source=True):

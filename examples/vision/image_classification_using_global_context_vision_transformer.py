@@ -17,6 +17,7 @@ pip install --upgrade keras
 """
 
 import keras
+# NOTE: Keras_cv is no longer maintained.
 from keras_cv.layers import DropPath
 from keras import ops
 from keras import layers

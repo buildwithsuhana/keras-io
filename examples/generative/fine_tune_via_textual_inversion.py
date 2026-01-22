@@ -2,8 +2,8 @@
 Title: Teach StableDiffusion new concepts via Textual Inversion
 Authors: Ian Stenbit, [lukewood](https://lukewood.xyz)
 Date created: 2022/12/09
-Last modified: 2022/12/09
-Description: Learning new visual concepts with KerasCV's StableDiffusion implementation.
+Last modified: 2024/05/20
+Description: Learning new visual concepts with StableDiffusion.
 """
 
 """
@@ -28,8 +28,13 @@ example of this process where the authors teach the model new concepts, calling 
 Conceptually, textual inversion works by learning a token embedding for a new text
 token, keeping the remaining components of StableDiffusion frozen.
 
-This guide shows you how to fine-tune the StableDiffusion model shipped in KerasCV
-using the Textual-Inversion algorithm.  By the end of the guide, you will be able to
+This guide shows you how to fine-tune the StableDiffusion model
+using the Textual-Inversion algorithm. 
+
+**Note: KerasCV is no longer actively maintained. For new applications, 
+consider using models from Keras Hub.**
+
+By the end of the guide, you will be able to
 write the "Gandalf the Gray as a &lt;my-funny-cat-token&gt;".
 
 ![https://i.imgur.com/rcb1Yfx.png](https://i.imgur.com/rcb1Yfx.png)
@@ -46,12 +51,13 @@ pip install -q tensorflow==2.11.0
 
 import math
 
+import keras
+# Note: keras_cv is no longer maintained.
 import keras_cv
 import numpy as np
 import tensorflow as tf
 from keras_cv import layers as cv_layers
 from keras_cv.models.stable_diffusion import NoiseScheduler
-from tensorflow import keras
 import matplotlib.pyplot as plt
 
 stable_diffusion = keras_cv.models.StableDiffusion()
@@ -87,7 +93,7 @@ First, let's construct an image dataset of cat dolls:
 
 def assemble_image_dataset(urls):
     # Fetch all remote files
-    files = [tf.keras.utils.get_file(origin=url) for url in urls]
+    files = [keras.utils.get_file(origin=url) for url in urls]
 
     # Resize images
     resize = keras.layers.Resizing(height=512, width=512, crop_to_aspect_ratio=True)
@@ -113,7 +119,7 @@ def assemble_image_dataset(urls):
         num_parallel_calls=tf.data.AUTOTUNE,
     )
     image_dataset = image_dataset.map(
-        cv_layers.RandomFlip(mode="horizontal"),
+        keras.layers.RandomFlip(mode="horizontal"),
         num_parallel_calls=tf.data.AUTOTUNE,
     )
     return image_dataset

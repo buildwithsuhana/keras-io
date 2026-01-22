@@ -36,6 +36,7 @@ os.environ["KERAS_BACKEND"] = "tensorflow"
 import keras
 from keras import ops
 from keras import layers
+# NOTE: Keras_cv is no longer maintained.
 import keras_cv
 import matplotlib.pyplot as plt
 

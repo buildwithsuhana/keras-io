@@ -38,7 +38,6 @@ import os
 
 os.environ["KERAS_BACKEND"] = "tensorflow"
 import keras
-import keras_cv
 from keras import ops
 from keras import layers
 import tensorflow as tf
@@ -76,7 +75,7 @@ Now, we will initialize a `RandAugment` object from the `imgaug.augmenters` modu
 the parameters suggested by the RandAugment authors.
 """
 
-rand_augment = keras_cv.layers.RandAugment(
+rand_augment = layers.RandAugment(
     value_range=(0, 255), augmentations_per_image=3, magnitude=0.8
 )
 

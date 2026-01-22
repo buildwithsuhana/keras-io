@@ -35,6 +35,7 @@ at least TensorFlow 2.11 in order to use AdamW with mixed precision.
 
 """shell
 pip install keras-cv==0.6.0 -q
+pip install keras-hub -q
 pip install -U tensorflow -q
 pip install keras-core -q
 """
@@ -80,18 +81,20 @@ Don't worry if this sounds complicated. The code is much simpler than this!
 from textwrap import wrap
 import os
 
-import keras_cv
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import tensorflow as tf
 import tensorflow.experimental.numpy as tnp
+import keras
+
+# Note: keras_cv is no longer maintained. 
+import keras_cv
 from keras_cv.models.stable_diffusion.clip_tokenizer import SimpleTokenizer
 from keras_cv.models.stable_diffusion.diffusion_model import DiffusionModel
 from keras_cv.models.stable_diffusion.image_encoder import ImageEncoder
 from keras_cv.models.stable_diffusion.noise_scheduler import NoiseScheduler
 from keras_cv.models.stable_diffusion.text_encoder import TextEncoder
-from tensorflow import keras
 
 """
 ## Data loading
@@ -104,7 +107,7 @@ dataset to fit better with `tf.data`. Refer to
 for more details.
 """
 
-data_path = tf.keras.utils.get_file(
+data_path = keras.utils.get_file(
     origin="https://huggingface.co/datasets/sayakpaul/pokemon-blip-original-version/resolve/main/pokemon_dataset.tar.gz",
     untar=True,
 )
@@ -164,9 +167,9 @@ POS_IDS = tf.convert_to_tensor([list(range(MAX_PROMPT_LENGTH))], dtype=tf.int32)
 
 augmenter = keras.Sequential(
     layers=[
-        keras_cv.layers.CenterCrop(RESOLUTION, RESOLUTION),
-        keras_cv.layers.RandomFlip(),
-        tf.keras.layers.Rescaling(scale=1.0 / 127.5, offset=-1),
+        keras.layers.CenterCrop(RESOLUTION, RESOLUTION),
+        keras.layers.RandomFlip(),
+        keras.layers.Rescaling(scale=1.0 / 127.5, offset=-1),
     ]
 )
 text_encoder = TextEncoder(MAX_PROMPT_LENGTH)
@@ -251,7 +254,7 @@ for i in range(3):
 """
 
 
-class Trainer(tf.keras.Model):
+class Trainer(keras.Model):
     # Reference:
     # https://github.com/huggingface/diffusers/blob/main/examples/text_to_image/train_text_to_image.py
 
@@ -382,7 +385,7 @@ diffusion_ft_trainer = Trainer(
     diffusion_model=DiffusionModel(RESOLUTION, RESOLUTION, MAX_PROMPT_LENGTH),
     # Remove the top layer from the encoder, which cuts off the variance and only
     # returns the mean.
-    vae=tf.keras.Model(
+    vae=keras.Model(
         image_encoder.input,
         image_encoder.layers[-2].output,
     ),
@@ -397,7 +400,7 @@ beta_1, beta_2 = 0.9, 0.999
 weight_decay = (1e-2,)
 epsilon = 1e-08
 
-optimizer = tf.keras.optimizers.experimental.AdamW(
+optimizer = keras.optimizers.AdamW(
     learning_rate=lr,
     weight_decay=weight_decay,
     beta_1=beta_1,
@@ -414,7 +417,7 @@ To keep the runtime of this tutorial short, we just fine-tune for an epoch.
 
 epochs = 1
 ckpt_path = "finetuned_stable_diffusion.h5"
-ckpt_callback = tf.keras.callbacks.ModelCheckpoint(
+ckpt_callback = keras.callbacks.ModelCheckpoint(
     ckpt_path,
     save_weights_only=True,
     monitor="loss",
@@ -436,7 +439,7 @@ the fine-tuned model parameters and model checkpointing.
 For this section, we'll use the checkpoint derived after 60 epochs of fine-tuning.
 """
 
-weights_path = tf.keras.utils.get_file(
+weights_path = keras.utils.get_file(
     origin="https://huggingface.co/sayakpaul/kerascv_sd_pokemon_finetuned/resolve/main/ckpt_epochs_72_res_512_mp_True.h5"
 )
 

@@ -51,6 +51,9 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import tensorflow_datasets as tfds
 import keras
+from keras import layers
+
+# Note: keras_cv is no longer maintained.
 import keras_cv
 
 """
@@ -137,7 +140,7 @@ has been shown to provide improved image
 classification results across numerous datasets.
 It performs a standard set of augmentations on an image.
 
-To use RandAugment in KerasCV, you need to provide a few values:
+To use RandAugment, you need to provide a few values:
 
 - `value_range` describes the range of values covered in your images
 - `magnitude` is a value between 0 and 1, describing the strength of the perturbations
@@ -153,10 +156,10 @@ You can read more about these
 parameters in the
 [`RandAugment` API documentation](/api/keras_cv/layers/preprocessing/rand_augment/).
 
-Let's use KerasCV's RandAugment implementation.
+Let's use Keras's RandAugment implementation.
 """
 
-rand_augment = keras_cv.layers.RandAugment(
+rand_augment = keras.layers.RandAugment(
     value_range=(0, 255),
     augmentations_per_image=3,
     magnitude=0.3,
@@ -202,8 +205,8 @@ preprocessing pipeline. In most state of the art pipelines images are randomly
 augmented by either `CutMix`, `MixUp`, or neither. The function below implements both.
 
 """
-cut_mix = keras_cv.layers.CutMix()
-mix_up = keras_cv.layers.MixUp()
+cut_mix = keras.layers.CutMix()
+mix_up = keras.layers.MixUp()
 
 
 def cut_mix_and_mix_up(samples):
@@ -254,7 +257,7 @@ First, let's filter out `RandomRotation` layers
 """
 
 layers = [
-    layer for layer in layers if not isinstance(layer, keras_cv.layers.RandomRotation)
+    layer for layer in layers if not isinstance(layer, keras.layers.RandomRotation)
 ]
 
 """
@@ -347,9 +350,12 @@ the loss function. When using `MixUp`, label smoothing is _highly_ recommended.
 input_shape = IMAGE_SIZE + (3,)
 
 
+import keras_hub
+
 def get_model():
-    model = keras_cv.models.ImageClassifier.from_preset(
-        "efficientnetv2_s", num_classes=num_classes
+    model = keras_hub.models.ImageClassifier.from_preset(
+        "efficientnet2_rw_s_ra2_imagenet",
+        num_classes=num_classes
     )
     model.compile(
         loss=keras.losses.CategoricalCrossentropy(label_smoothing=0.1),
