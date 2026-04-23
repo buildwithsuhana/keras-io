@@ -10,10 +10,10 @@ It spans a wide range of related initiatives that cover every step of the machin
 [KerasHub Documentation](/keras_hub/) - [KerasHub GitHub repository](https://github.com/keras-team/keras-hub)
 
 KerasHub is a pretrained modeling library that aims to be simple, flexible, and
-fast. The library provides Keras implementations of popular model architectures,
-paired with a collection of pretrained checkpoints. Models can be used with
-text, image, and audio data for generation, classification, and many other
-built-in tasks.
+fast. The library provides Keras implementations of popular model architectures
+for computer vision, natural language processing, and audio, paired with a
+collection of pretrained checkpoints. Models can be used for text generation,
+image classification, object detection, and many other built-in tasks.
 
 ---
 

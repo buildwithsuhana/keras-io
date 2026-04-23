@@ -96,7 +96,7 @@ Importantly, you should:
 
 - Make sure you are able to read your data fast enough to keep the TPU utilized.
 - Consider running multiple steps of gradient descent per graph execution in order to keep the TPU utilized.
-You can do this via the `experimental_steps_per_execution` argument `compile()`. It will yield a significant speed up for small models.
+You can do this via the `steps_per_execution` argument `compile()`. It will yield a significant speed up for small models.
 
 ---
 
@@ -269,7 +269,7 @@ you can pass them to the loading mechanism via the `custom_objects` argument:
 ```python
 from keras.models import load_model
 # Assuming your model includes instance of an "AttentionLayer" class
-model = load_model('my_model.h5', custom_objects={'AttentionLayer': AttentionLayer})
+model = load_model('my_model.keras', custom_objects={'AttentionLayer': AttentionLayer})
 ```
 
 Alternatively, you can use a [custom object scope](https://keras.io/utils/#customobjectscope):
@@ -278,7 +278,7 @@ Alternatively, you can use a [custom object scope](https://keras.io/utils/#custo
 from keras.utils import CustomObjectScope
 
 with CustomObjectScope({'AttentionLayer': AttentionLayer}):
-    model = load_model('my_model.h5')
+    model = load_model('my_model.keras')
 ```
 
 Custom objects handling works the same way for `load_model` & `model_from_json`:
@@ -385,7 +385,7 @@ model.compile(optimizer, loss="mse")
 x = np.random.random((24, 10))
 y = np.random.random((24,))
 
-backup_callback = keras.callbacks.experimental.BackupAndRestore(
+backup_callback = keras.callbacks.BackupAndRestore(
     backup_dir='/tmp/backup')
 try:
   model.fit(x, y, epochs=20, steps_per_epoch=5,
@@ -748,7 +748,7 @@ intermediate_output = intermediate_layer_model(data)
 ### How can I use pre-trained models in Keras?
 
 You could leverage the [models available in `keras.applications`](/api/applications/),
-or the models available in [KerasCV](/keras_cv/) and [KerasHub](/keras_hub/).
+or the models available in [KerasHub](/keras_hub/).
 
 
 ---

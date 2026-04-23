@@ -40,12 +40,11 @@ To use Keras 3, you will also need to install a backend framework -- either JAX,
 If you install TensorFlow 2.15, you should reinstall Keras 3 afterwards. The cause is that `tensorflow==2.15` will overwrite your Keras installation with `keras==2.15`.
 This step is not necessary for TensorFlow versions 2.16 onwards as starting in TensorFlow 2.16, it will install Keras 3 by default.
 
-### Installing KerasCV and KerasHub
+### Installing KerasHub
 
-KerasCV and KerasHub can be installed via pip:
+KerasHub can be installed via pip:
 
 ```
-pip install --upgrade keras-cv
 pip install --upgrade keras-hub
 pip install --upgrade keras
 ```
@@ -153,7 +152,7 @@ These lines would need to be before any `import tensorflow` statement.
 
 The following Keras + JAX versions are compatible with each other:
 
-- `jax==0.4.20` & `keras~=3.0`
+- `jax>=0.4.20` & `keras>=3.0`
 
 ### TensorFlow compatibility
 
@@ -167,10 +166,17 @@ To use Keras 2:
 
 To use Keras 3:
 
-- `tensorflow~=2.16.1` & `keras~=3.0`
+- `tensorflow>=2.16.1` & `keras>=3.0`
 
 ### PyTorch compatibility
 
 The following Keras + PyTorch versions are compatible with each other:
 
-- `torch~=2.1.0` & `keras~=3.0`
+- `torch>=2.1.0` & `keras>=3.0`
+
+### OpenVINO compatibility (inference only)
+
+The following Keras + OpenVINO versions are compatible with each other:
+
+- `openvino>=2025.3.0` & `keras>=3.0`
+

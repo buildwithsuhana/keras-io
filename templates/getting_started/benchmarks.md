@@ -21,7 +21,7 @@ selections.
 
 We are not measuring the best possible performance achievable by each framework,
 but the out-of-the-box performance of common user workflows. With this goal in
-mind, we leveraged pre-existing implementations from KerasCV and KerasHub for
+mind, we leveraged pre-existing implementations from KerasHub for
 the Keras versions of the models.
 
 ## Hardware
