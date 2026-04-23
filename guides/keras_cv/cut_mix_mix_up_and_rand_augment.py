@@ -8,6 +8,12 @@ Accelerator: GPU
 """
 
 """
+Note: KerasCV is no longer actively maintained. We recommend using [KerasHub](/keras_hub/)
+for your computer vision needs, which includes support for many of the same models
+and tasks.
+"""
+
+"""
 ## Overview
 
 KerasCV makes it easy to assemble state-of-the-art, industry-grade data augmentation

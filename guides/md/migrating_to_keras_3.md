@@ -63,7 +63,7 @@ First, replace your imports:
 1. Replace `from tensorflow import keras` to `import keras`
 2. Replace `from tensorflow.keras import xyz` (e.g. `from tensorflow.keras import layers`)
 to `from keras import xyz` (e.g. `from keras import layers`)
-3. Replace `tf.keras.*` to `keras.*`
+3. Replace `keras.*` to `keras.*`
 
 Next, start running your tests. Most of the time, your code will execute on Keras 3 just fine.
 All issues you might encounter are detailed below, with their fixes.
@@ -394,7 +394,7 @@ method to keep track of these losses.
 
 
 When dealing with multiple named outputs, such as output_a and output_b, the legacy
-`tf.keras` would include <output_a>_loss, <output_b>_loss, and similar entries in
+`keras` would include <output_a>_loss, <output_b>_loss, and similar entries in
 metrics. However, in keras 3.0, these entries are not automatically added to metrics.
 They must be explicitly provided in the metrics list for each individual output.
 

@@ -8,6 +8,12 @@ Accelerator: None
 """
 
 """
+Note: KerasCV is no longer actively maintained. We recommend using [KerasHub](/keras_hub/)
+for your computer vision needs, which includes support for many of the same models
+and tasks.
+"""
+
+"""
 ## Overview
 
 With KerasCV's COCO metrics implementation, you can easily evaluate your object

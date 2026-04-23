@@ -3,12 +3,19 @@ Title: Custom Image Augmentations with BaseImageAugmentationLayer
 Author: [lukewood](https://twitter.com/luke_wood_ml)
 Date created: 2022/04/26
 Last modified: 2023/11/29
-Description: Use BaseImageAugmentationLayer to implement custom data augmentations.
-Accelerator: None
+Description: Use KerasCV's BaseImageAugmentationLayer to implement custom augmentations.
+Accelerator: GPU
+"""
+
+"""
+Note: KerasCV is no longer actively maintained. We recommend using [KerasHub](/keras_hub/)
+for your computer vision needs, which includes support for many of the same models
+and tasks.
 """
 
 """
 ## Overview
+
 Data augmentation is an integral part of training any robust computer vision model.
 While KerasCV offers a plethora of prebuild high quality data augmentation techniques,
 you may still want to implement your own custom technique.

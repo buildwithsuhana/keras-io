@@ -236,5 +236,5 @@ full_model_parallel_mesh = keras.distribution.DeviceMesh(
 2. [JAX sharding module](https://jax.readthedocs.io/en/latest/jax.sharding.html)
 3. [TensorFlow Distributed training with DTensors](https://www.tensorflow.org/tutorials/distribute/dtensor_ml_tutorial)
 4. [TensorFlow DTensor concepts](https://www.tensorflow.org/guide/dtensor_overview)
-5. [Using DTensors with tf.keras](https://www.tensorflow.org/tutorials/distribute/dtensor_keras_tutorial)
+5. [Using DTensors with keras](https://www.tensorflow.org/tutorials/distribute/dtensor_keras_tutorial)
 """

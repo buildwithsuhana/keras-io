@@ -27,25 +27,25 @@ handle feature normalization or feature value indexing on their own.
 
 ### Text preprocessing
 
-- `tf.keras.layers.TextVectorization`: turns raw strings into an encoded
+- `keras.layers.TextVectorization`: turns raw strings into an encoded
   representation that can be read by an `Embedding` layer or `Dense` layer.
 
 ### Numerical features preprocessing
 
-- `tf.keras.layers.Normalization`: performs feature-wise normalization of
+- `keras.layers.Normalization`: performs feature-wise normalization of
   input features.
-- `tf.keras.layers.Discretization`: turns continuous numerical features
+- `keras.layers.Discretization`: turns continuous numerical features
   into integer categorical features.
 
 ### Categorical features preprocessing
 
-- `tf.keras.layers.CategoryEncoding`: turns integer categorical features
+- `keras.layers.CategoryEncoding`: turns integer categorical features
   into one-hot, multi-hot, or count dense representations.
-- `tf.keras.layers.Hashing`: performs categorical feature hashing, also known as
+- `keras.layers.Hashing`: performs categorical feature hashing, also known as
   the "hashing trick".
-- `tf.keras.layers.StringLookup`: turns string categorical values into an encoded
+- `keras.layers.StringLookup`: turns string categorical values into an encoded
   representation that can be read by an `Embedding` layer or `Dense` layer.
-- `tf.keras.layers.IntegerLookup`: turns integer categorical values into an
+- `keras.layers.IntegerLookup`: turns integer categorical values into an
   encoded representation that can be read by an `Embedding` layer or `Dense`
   layer.
 
@@ -54,23 +54,23 @@ handle feature normalization or feature value indexing on their own.
 
 These layers are for standardizing the inputs of an image model.
 
-- `tf.keras.layers.Resizing`: resizes a batch of images to a target size.
-- `tf.keras.layers.Rescaling`: rescales and offsets the values of a batch of
+- `keras.layers.Resizing`: resizes a batch of images to a target size.
+- `keras.layers.Rescaling`: rescales and offsets the values of a batch of
   images (e.g. go from inputs in the `[0, 255]` range to inputs in the `[0, 1]`
   range.
-- `tf.keras.layers.CenterCrop`: returns a center crop of a batch of images.
+- `keras.layers.CenterCrop`: returns a center crop of a batch of images.
 
 ### Image data augmentation
 
 These layers apply random augmentation transforms to a batch of images. They
 are only active during training.
 
-- `tf.keras.layers.RandomCrop`
-- `tf.keras.layers.RandomFlip`
-- `tf.keras.layers.RandomTranslation`
-- `tf.keras.layers.RandomRotation`
-- `tf.keras.layers.RandomZoom`
-- `tf.keras.layers.RandomContrast`
+- `keras.layers.RandomCrop`
+- `keras.layers.RandomFlip`
+- `keras.layers.RandomTranslation`
+- `keras.layers.RandomRotation`
+- `keras.layers.RandomZoom`
+- `keras.layers.RandomContrast`
 
 ---
 ## The `adapt()` method
@@ -274,8 +274,8 @@ and called either inside or before the model as discussed above.
 ```python
 with strategy.scope():
     inputs = keras.Input(shape=input_shape)
-    preprocessing_layer = tf.keras.layers.Hashing(10)
-    dense_layer = tf.keras.layers.Dense(16)
+    preprocessing_layer = keras.layers.Hashing(10)
+    dense_layer = keras.layers.Dense(16)
 ```
 
 For more details, refer to the _Data preprocessing_ section

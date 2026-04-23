@@ -4,6 +4,13 @@ Author: [lukewood](https://lukewood.xyz), Ian Stenbit, Owen Vallis
 Date created: 2023/01/22
 Last modified: 2023/01/22
 Description: Train a KerasCV model using unlabelled data with SimSiam.
+Accelerator: GPU
+"""
+
+"""
+Note: KerasCV is no longer actively maintained. We recommend using [KerasHub](/keras_hub/)
+for your computer vision needs, which includes support for many of the same models
+and tasks.
 """
 
 """
@@ -307,29 +314,27 @@ model for downstream tasks, only the `ContrastiveModel.backbone` is used.
 
 
 def get_projector(input_dim, dim, activation="relu", num_layers: int = 3):
-    inputs = tf.keras.layers.Input((input_dim,), name="projector_input")
+    inputs = keras.layers.Input((input_dim,), name="projector_input")
     x = inputs
 
     for i in range(num_layers - 1):
-        x = tf.keras.layers.Dense(
+        x = keras.layers.Dense(
             dim,
             use_bias=False,
-            kernel_initializer=tf.keras.initializers.LecunUniform(),
+            kernel_initializer=keras.initializers.LecunUniform(),
             name=f"projector_layer_{i}",
         )(x)
-        x = tf.keras.layers.BatchNormalization(
+        x = keras.layers.BatchNormalization(
             epsilon=1.001e-5, name=f"batch_normalization_{i}"
         )(x)
-        x = tf.keras.layers.Activation(activation, name=f"{activation}_activation_{i}")(
-            x
-        )
-    x = tf.keras.layers.Dense(
+        x = keras.layers.Activation(activation, name=f"{activation}_activation_{i}")(x)
+    x = keras.layers.Dense(
         dim,
         use_bias=False,
-        kernel_initializer=tf.keras.initializers.LecunUniform(),
+        kernel_initializer=keras.initializers.LecunUniform(),
         name="projector_output",
     )(x)
-    x = tf.keras.layers.BatchNormalization(
+    x = keras.layers.BatchNormalization(
         epsilon=1.001e-5,
         center=False,  # Page:5, Paragraph:2 of SimSiam paper
         scale=False,  # Page:5, Paragraph:2 of SimSiam paper
@@ -339,7 +344,7 @@ def get_projector(input_dim, dim, activation="relu", num_layers: int = 3):
     # Degenerate solutions colapse to 0 while valid solutions will move
     # towards something like 0.0220. The actual number will depend on the layer size.
     o = tfsim.layers.ActivationStdLoggingLayer(name="proj_std")(x)
-    projector = tf.keras.Model(inputs, o, name="projector")
+    projector = keras.Model(inputs, o, name="projector")
     return projector
 
 
@@ -354,30 +359,30 @@ simple stack of two MLP layers, containing a bottleneck in the hidden layer.
 
 
 def get_predictor(input_dim, hidden_dim=512, activation="relu"):
-    inputs = tf.keras.layers.Input(shape=(input_dim,), name="predictor_input")
+    inputs = keras.layers.Input(shape=(input_dim,), name="predictor_input")
     x = inputs
 
-    x = tf.keras.layers.Dense(
+    x = keras.layers.Dense(
         hidden_dim,
         use_bias=False,
-        kernel_initializer=tf.keras.initializers.LecunUniform(),
+        kernel_initializer=keras.initializers.LecunUniform(),
         name="predictor_layer_0",
     )(x)
-    x = tf.keras.layers.BatchNormalization(
-        epsilon=1.001e-5, name="batch_normalization_0"
-    )(x)
-    x = tf.keras.layers.Activation(activation, name=f"{activation}_activation_0")(x)
+    x = keras.layers.BatchNormalization(epsilon=1.001e-5, name="batch_normalization_0")(
+        x
+    )
+    x = keras.layers.Activation(activation, name=f"{activation}_activation_0")(x)
 
-    x = tf.keras.layers.Dense(
+    x = keras.layers.Dense(
         input_dim,
-        kernel_initializer=tf.keras.initializers.LecunUniform(),
+        kernel_initializer=keras.initializers.LecunUniform(),
         name="predictor_output",
     )(x)
     # Metric Logging layer. Monitors the std of the layer activations.
     # Degenerate solutions colapse to 0 while valid solutions will move
     # towards something like 0.0220. The actual number will depend on the layer size.
     o = tfsim.layers.ActivationStdLoggingLayer(name="pred_std")(x)
-    predictor = tf.keras.Model(inputs, o, name="predictor")
+    predictor = keras.Model(inputs, o, name="predictor")
     return predictor
 
 
@@ -399,11 +404,11 @@ contrastive_model = tfsim.models.ContrastiveModel(
     algorithm="simsiam",
     name="simsiam",
 )
-lr_decayed_fn = tf.keras.optimizers.schedules.CosineDecay(
+lr_decayed_fn = keras.optimizers.schedules.CosineDecay(
     initial_learning_rate=INIT_LR,
     decay_steps=PRE_TRAIN_EPOCHS * PRE_TRAIN_STEPS_PER_EPOCH,
 )
-wd_decayed_fn = tf.keras.optimizers.schedules.CosineDecay(
+wd_decayed_fn = keras.optimizers.schedules.CosineDecay(
     initial_learning_rate=WEIGHT_DECAY,
     decay_steps=PRE_TRAIN_EPOCHS * PRE_TRAIN_STEPS_PER_EPOCH,
 )
@@ -455,12 +460,12 @@ callbacks = [
         k=1,
         tb_logdir=log_dir,
     ),
-    tf.keras.callbacks.TensorBoard(
+    keras.callbacks.TensorBoard(
         log_dir=log_dir,
         histogram_freq=1,
         update_freq=100,
     ),
-    tf.keras.callbacks.ModelCheckpoint(
+    keras.callbacks.ModelCheckpoint(
         filepath=chkpt_dir,
         monitor="val_loss",
         mode="min",
@@ -530,7 +535,7 @@ eval_augmenter = keras.Sequential(
 )
 
 eval_train_ds = tf.data.Dataset.from_tensor_slices(
-    (x_raw_train, tf.keras.utils.to_categorical(y_raw_train, 10))
+    (x_raw_train, keras.utils.to_categorical(y_raw_train, 10))
 )
 eval_train_ds = eval_train_ds.repeat()
 eval_train_ds = eval_train_ds.shuffle(1024)
@@ -539,7 +544,7 @@ eval_train_ds = eval_train_ds.batch(BATCH_SIZE)
 eval_train_ds = eval_train_ds.prefetch(tf.data.AUTOTUNE)
 
 eval_val_ds = tf.data.Dataset.from_tensor_slices(
-    (x_test, tf.keras.utils.to_categorical(y_test, 10))
+    (x_test, keras.utils.to_categorical(y_test, 10))
 )
 eval_val_ds = eval_val_ds.repeat()
 eval_val_ds = eval_val_ds.shuffle(1024)
@@ -558,14 +563,14 @@ TEST_STEPS_PER_EPOCH = x_raw_train.shape[0] // BATCH_SIZE
 
 def get_eval_model(img_size, backbone, total_steps, trainable=True, lr=1.8):
     backbone.trainable = trainable
-    inputs = tf.keras.layers.Input((img_size, img_size, 3), name="eval_input")
+    inputs = keras.layers.Input((img_size, img_size, 3), name="eval_input")
     x = backbone(inputs, training=trainable)
-    o = tf.keras.layers.Dense(10, activation="softmax")(x)
-    model = tf.keras.Model(inputs, o)
-    cosine_decayed_lr = tf.keras.experimental.CosineDecay(
+    o = keras.layers.Dense(10, activation="softmax")(x)
+    model = keras.Model(inputs, o)
+    cosine_decayed_lr = keras.experimental.CosineDecay(
         initial_learning_rate=lr, decay_steps=total_steps
     )
-    opt = tf.keras.optimizers.SGD(cosine_decayed_lr, momentum=0.9)
+    opt = keras.optimizers.SGD(cosine_decayed_lr, momentum=0.9)
     model.compile(optimizer=opt, loss="categorical_crossentropy", metrics=["acc"])
     return model
 

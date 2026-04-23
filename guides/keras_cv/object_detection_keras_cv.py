@@ -8,6 +8,12 @@ Accelerator: GPU
 """
 
 """
+Note: KerasCV is no longer actively maintained. We recommend using [KerasHub](/keras_hub/)
+for your computer vision needs, which includes support for many of the same models
+and tasks.
+"""
+
+"""
 KerasCV offers a complete set of production grade APIs to solve object detection
 problems.
 These APIs include object-detection-specific
