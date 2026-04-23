@@ -117,17 +117,17 @@ pip install --upgrade keras
 From TensorFlow 2.0 to TensorFlow 2.15 (included), doing `pip install tensorflow` will also
 install the corresponding version of Keras 2 -- for instance, `pip install tensorflow==2.14.0` will
 install `keras==2.14.0`. That version of Keras is then available via both `import keras` and `from tensorflow import keras`
-(the `tf.keras` namespace).
+(the `keras` namespace).
 
 Starting with TensorFlow 2.16, doing `pip install tensorflow` will install Keras 3. When you have TensorFlow >= 2.16
-and Keras 3, then by default `from tensorflow import keras` (`tf.keras`) will be Keras 3.
+and Keras 3, then by default `from tensorflow import keras` (`keras`) will be Keras 3.
 
 Meanwhile, the legacy Keras 2 package is still being released regularly and is available on PyPI as `tf_keras`
 (or equivalently `tf-keras` -- note that `-` and `_` are equivalent in PyPI package names).
 To use it, you can install it via `pip install tf_keras` then import it via `import tf_keras as keras`.
 
-Should you want `tf.keras` to stay on Keras 2 after upgrading to TensorFlow 2.16+, you can configure your TensorFlow installation
-so that `tf.keras` points to `tf_keras`. To achieve this:
+Should you want `keras` to stay on Keras 2 after upgrading to TensorFlow 2.16+, you can configure your TensorFlow installation
+so that `keras` points to `tf_keras`. To achieve this:
 
 1. Make sure to install `tf_keras`. Note that TensorFlow does not install it by default.
 2. Export the environment variable `TF_USE_LEGACY_KERAS=1`.

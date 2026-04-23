@@ -8,6 +8,13 @@ Accelerator: GPU
 """
 
 """
+Note: This example uses `keras_cv`, which is no longer maintained in our
+documentation. For maintained image-augmentation and preprocessing layers,
+check the core `keras` package and `keras_hub` for pretrained models. The
+`keras_cv` code is left as-is for historical reference.
+"""
+
+"""
 Self-supervised learning (SSL) is an interesting branch of study in the field of
 representation learning. SSL systems try to formulate a supervised signal from a corpus
 of unlabeled data points.  An example is we train a deep neural network to predict the

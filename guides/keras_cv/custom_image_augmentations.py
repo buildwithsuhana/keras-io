@@ -14,6 +14,14 @@ and tasks.
 """
 
 """
+Note: The `keras_cv` project is no longer maintained in this documentation.
+The examples below reference `keras_cv`. Equivalent, maintained functionality
+may now be available under `keras_hub` or the core `keras` package. See
+/keras_hub/ for pretrained models and updated APIs. Consider migrating code
+to `keras_hub.models` or `keras` where possible.
+"""
+
+"""
 ## Overview
 
 Data augmentation is an integral part of training any robust computer vision model.

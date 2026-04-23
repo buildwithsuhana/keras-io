@@ -8,6 +8,13 @@ Accelerator: GPU
 """
 
 """
+Note: This example uses `keras_cv`, which is no longer maintained in our
+documentation. For object-detection pretrained models and updated APIs,
+check `/keras_hub/` and the core `keras` package where applicable. The
+`keras_cv` code is left as-is for historical reference.
+"""
+
+"""
 ## Introduction
 """
 

@@ -70,7 +70,7 @@ loops, and the Keras saving & serialization infrastructure. All the APIs you
 know and love are here.
 
 Any Keras model that only uses built-in layers will immediately work with
-all supported backends. In fact, your existing `tf.keras` models
+all supported backends. In fact, your existing `keras` models
 that only use built-in layers can start running in JAX and PyTorch *right away*!
 That's right, your codebase just gained a whole new set of capabilities.
 
@@ -115,7 +115,7 @@ and start using it in a JAX training loop, a TensorFlow training loop,
 or a PyTorch training loop, or as part of a JAX or PyTorch model,
 with zero friction. Keras 3 provides exactly
 the same degree of low-level implementation flexibility in JAX and PyTorch
-as `tf.keras` previously did in TensorFlow.
+as `keras` previously did in TensorFlow.
 
 You can:
 
@@ -310,14 +310,14 @@ The code and API are wholly unchanged — it's Keras 2.15 with a different packa
 We will keep fixing bugs in `tf_keras` and we will keep regularly releasing new versions.
 However, no new features or performance improvements will be added,
 since the package is now in maintenance mode.
-2. If you were accessing `keras` via `tf.keras`,
+2. If you were accessing `keras` via `keras`,
 there are no immediate changes until TensorFlow 2.16.
 TensorFlow 2.16+ will use Keras 3 by default.
 In TensorFlow 2.16+, to keep using Keras 2, you can first install `tf_keras`,
 and then export the environment variable `TF_USE_LEGACY_KERAS=1`.
-This will direct TensorFlow 2.16+ to resolve tf.keras to the locally-installed `tf_keras` package.
+This will direct TensorFlow 2.16+ to resolve keras to the locally-installed `tf_keras` package.
 Note that this may affect more than your own code, however:
-it will affect any package importing `tf.keras` in your Python process.
+it will affect any package importing `keras` in your Python process.
 To make sure your changes only affect your own code, you should use the `tf_keras` package. 
 
 ---
@@ -334,16 +334,16 @@ we're eager to hear from you!
 
 #### Q: Is Keras 3 compatible with legacy Keras 2?
 
-Code developed with `tf.keras` can generally be run as-is with Keras 3
+Code developed with `keras` can generally be run as-is with Keras 3
 (with the TensorFlow backend). There's a limited number of incompatibilities you should be mindful
 of, all addressed in [this migration guide](/guides/migrating_to_keras_3/).
 
-When it comes to using APIs from `tf.keras` and Keras 3 side by side,
+When it comes to using APIs from `keras` and Keras 3 side by side,
 that is **not** possible — they're different packages, running on entirely separate engines.
 
 ### Q: Do pretrained models developed in legacy Keras 2 work with Keras 3?
 
-Generally, yes. Any `tf.keras` model should work out of the box with Keras 3
+Generally, yes. Any `keras` model should work out of the box with Keras 3
 with the TensorFlow backend (make sure to save it in the `.keras` v3 format).
 In addition, if the model only
 uses built-in Keras layers, then it will also work out of the box
@@ -352,7 +352,7 @@ with Keras 3 with the JAX and PyTorch backends.
 If the model contains custom layers written using TensorFlow APIs,
 it is usually easy to convert the code to be backend-agnostic.
 For instance, it only took us a few hours to convert all 40
-legacy `tf.keras` models from Keras Applications to be backend-agnostic.
+legacy `keras` models from Keras Applications to be backend-agnostic.
 
 ### Q: Can I save a Keras 3 model in one backend and reload it in another backend?
 

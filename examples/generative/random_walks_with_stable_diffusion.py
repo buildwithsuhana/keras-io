@@ -8,6 +8,26 @@ Accelerator: GPU
 """
 
 """
+Note: This example uses `keras_cv`, which is no longer maintained in our
+documentation. For maintained Stable Diffusion functionality prefer the
+`keras_hub` StableDiffusion3 APIs (see /keras_hub/). The `keras_cv` code is
+left as-is for historical reference.
+"""
+
+"""
+Quick example (KerasHub):
+
+```python
+import keras_hub
+text_to_image = keras_hub.models.StableDiffusion3TextToImage.from_preset(
+    "stable_diffusion_3_medium", dtype="float16"
+)
+generated = text_to_image.generate("A watercolor painting of a Golden Retriever at the beach")
+```
+
+"""
+
+"""
 ## Overview
 
 Generative image models learn a "latent manifold" of the visual world:

@@ -983,7 +983,7 @@ If we combine this with our `tokenizer`, we can build a preprocessing function t
 output batches of token ids with shape `(batch_size, sequence_length)`. We should also
 output a padding mask that marks which tokens are padding tokens, so we can later exclude
 these positions from our Transformer's attention computation. Most Transformer backbones
-in KerasNLP take in a `"padding_mask"` input.
+in KerasHub take in a `"padding_mask"` input.
 
 
 ```python

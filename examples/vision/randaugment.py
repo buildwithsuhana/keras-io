@@ -97,6 +97,13 @@ train_ds_rand = (
         lambda x, y: (rand_augment(tf.cast(x, tf.uint8)), y),
         num_parallel_calls=AUTO,
     )
+
+    """
+    Note: This example uses `keras_cv`, which is no longer maintained in our
+    documentation. For maintained augmentation layers and preprocessors, check
+    the core `keras` package and `keras_hub` for pretrained models. The
+    `keras_cv` code is left as-is for historical reference.
+    """
     .prefetch(AUTO)
 )
 

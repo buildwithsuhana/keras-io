@@ -39,10 +39,6 @@ our nightly package.
 pip install --upgrade keras-hub-nightly
 ```
 
-Currently, installing KerasHub will always pull in TensorFlow for use of the
-`tf.data` API for preprocessing. When pre-processing with `tf.data`, training
-can still happen on any backend.
-
 Visit the [core Keras getting started page](https://keras.io/getting_started/)
 for more information on installing Keras 3, accelerator support, and
 compatibility with different frameworks.

@@ -8,6 +8,13 @@ Accelerator: GPU
 """
 
 """
+Note: This example uses `keras_cv`, which is no longer maintained in our
+documentation. For maintained augmentation and preprocessing layers, check
+the core `keras` package and `keras_hub` for pretrained components. The
+`keras_cv` code is left as-is for historical reference.
+"""
+
+"""
 ## Introduction
 
 ### Self-supervised learning
